@@ -1,0 +1,8 @@
+[alias]
+	pushfl = push --force-with-lease
+	st = status
+	co = checkout
+	cmt = commit
+[user]
+	email = INFCode@163.com
+	name = INFCode
