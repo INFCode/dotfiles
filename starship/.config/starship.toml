@@ -1,0 +1,112 @@
+format = """\
+╭─(gray)[](fg:green)\
+$username\
+[](fg:green bg:blue)\
+$directory\
+[](fg:blue bg:yellow)\
+$git_branch\
+$git_status\
+$git_metrics\
+[](fg:yellow bg:red)\
+$c\
+$cpp\
+$golang\
+$lua\
+$python\
+$rust\
+[](red)\
+$fill\
+[](purple)\
+$time[](purple)[─╮](gray)\n\
+[╰─](gray)$character
+"""
+
+right_format = """\
+[─╯](gray)\
+"""
+
+add_newline = true
+[line_break]
+disabled = false
+
+# ---------- modules ----------
+[username]
+show_always = true
+style_user = "fg:black bg:green bold"
+format = "[$user]($style)"
+
+[directory]
+style = "fg:white bg:blue"
+format = "[  $path ]($style)"
+
+[git_branch]
+symbol = " "
+style = "fg:black bg:yellow"
+format = "[ $symbol$branch ]($style)"
+
+[git_status]
+style = "fg:black bg:yellow"
+format = """\
+[$staged]($style)\
+[$modified]($style)\
+[$untracked]($style)\
+[$deleted]($style)\
+[$conflicted]($style)\
+"""
+
+staged = ' $count '
+modified = ' $count '
+untracked = ' $count '
+deleted = ' $count '
+conflicted = ' $count '
+
+[git_metrics]
+format = "([+$added]($added_style))"
+added_style = "fg:black bg:yellow"
+deleted_style = "fg:red bg:yellow"
+disabled = false
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:black bg:purple"
+format = "[ 󱑍 $time ]($style)"
+
+[character]
+success_symbol = "[](green)"
+error_symbol = "[](red)"
+
+[fill]
+disabled = false
+symbol = " "
+
+# ---------- languages ----------
+[c]
+symbol = ""
+style = "fg:white bg:red"
+format = '[ $symbol ($version) ]($style)'
+
+[cpp]
+symbol = ""
+style = "fg:white bg:red"
+format = '[ $symbol ($version) ]($style)'
+
+[golang]
+symbol = ""
+style = "fg:white bg:red"
+format = '[ $symbol ($version) ]($style)'
+
+[lua]
+symbol = "󰢱"
+style = "fg:white bg:red"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+symbol = "󰌠"
+style = "fg:white bg:red"
+format = '[ $symbol ($version)(\($virtualenv\)) ]($style)'
+
+[rust]
+symbol = ""
+style = "fg:white bg:red"
+format = '[ $symbol ($version) ]($style)'
