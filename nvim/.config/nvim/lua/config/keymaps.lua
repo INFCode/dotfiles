@@ -6,3 +6,4 @@ local map = vim.keymap.set
 local default_opts = { noremap = true, silent = true }
 
 map("i", "jk", "<ESC>", default_opts)
+map("n", "x", '"_x', default_opts) -- delete single character without polluting the register
