@@ -1,0 +1,6 @@
+[alias]
+        st = status
+        co = checkout
+        pushfl = push --force-with-lease
+        cmt = commit
+	cmtamne = commit --amend --no-edit
