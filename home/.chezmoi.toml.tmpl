@@ -1,0 +1,11 @@
+{{- $scriptPath := joinPath .chezmoi.workingTree "scripts" "ask_config.py" -}}
+
+{{- /* TODO: Add basic environment check script */ -}}
+{{- $output := output "python3" $scriptPath | trim -}}
+
+{{- /* writeToStdout $output */ -}}
+{{- $config := fromJson $output -}}
+[data]
+    email = {{ $config.email | quote }}
+    username = {{ $config.user | quote }}
+    use_neovim = {{ $config.use_neovim }}
