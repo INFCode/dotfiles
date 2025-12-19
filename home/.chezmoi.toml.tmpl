@@ -5,7 +5,9 @@
 
 {{- /* writeToStdout $output */ -}}
 {{- $config := fromJson $output -}}
+
 [data]
     email = {{ $config.email | quote }}
     username = {{ $config.user | quote }}
-    use_neovim = {{ $config.use_neovim }}
+    neovim = {{ $config.enable_neovim }}
+    preferred_editor = {{if $config.neovim}} "nvim" {{else}} "vim" {{end}}
