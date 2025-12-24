@@ -1,13 +1,50 @@
-{{- $scriptPath := joinPath .chezmoi.workingTree "scripts" "ask_config.py" -}}
+{{/* Custom config */}}
 
-{{- /* TODO: Add basic environment check script */ -}}
-{{- $output := output "python3" $scriptPath | trim -}}
+{{- $hosttype := promptChoice "Which type of host is this" (list "work" "personal") -}}
+{{- $fancy := promptChoice "Enable fancy features" (list "all" "basic" "none") -}}
+{{- $headless := promptBool "Is this device headless" true -}}
 
-{{- /* writeToStdout $output */ -}}
-{{- $config := fromJson $output -}}
+{{/* Define all variables to make template happy */}}
+{{- $editor := "neovim" -}}
+{{- $editor_bin := "nvim" -}}{{/* name of editor binary */}}
+{{- $username := "INFCode" -}}
+{{- $email := "INFCode@163.com" -}}
+
+{{/* Infer detailed config */}}
+
+{{- if eq $fancy "all" -}}
+{{/*  Nothing to do for now */}}
+{{- else if eq $fancy "basic" -}}
+{{/*  Nothing to do for now */}}
+{{- else if eq $fancy "none" -}}
+{{-   $editor := "vim" -}}
+{{-   $editor_bin := "vim" -}}
+{{- else -}}
+{{-   warnf "Unknown fancy level (%v)!" $fancy -}}
+{{-   exit 1 -}}
+{{- end -}}
+
+{{- if eq $hosttype "personal" -}}
+{{/*  Nothing to do for now */}}
+{{- else if eq $hosttype "work" -}}
+{{-   $username := promptString "User name" -}}
+{{-   $email := promptString "Email" -}}
+{{- else -}}
+{{-   warnf "Unknown hosttype (%v)!" $hosttype -}}
+{{-   exit 1 -}}
+{{- end -}}
+
+{{- if $headless -}}
+{{/*  Nothing to do for now */}}
+{{- else -}}
+{{/*  Nothing to do for now */}}
+{{- end -}}
 
 [data]
-    email = {{ $config.email | quote }}
-    username = {{ $config.user | quote }}
-    neovim = {{ $config.enable_neovim }}
-    preferred_editor = {{if $config.neovim}} "nvim" {{else}} "vim" {{end}}
+    hosttype = {{ $hosttype | quote }}
+    fancy = {{ $fancy | quote }}
+    headless = {{ $headless }}
+    email = {{ $email | quote }}
+    username = {{ $username | quote }}
+    editor = {{ $editor | quote }}
+    editor_bin = {{ $editor_bin | quote }}
