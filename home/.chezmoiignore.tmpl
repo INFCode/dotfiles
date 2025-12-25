@@ -1,0 +1,9 @@
+{{- if ne .editor "neovim" -}}
+.config/nvim
+{{- else if ne .editor "vim" -}}
+{{/*  No vim config for now */}}
+{{- end -}}
+
+{{- if .headless }}
+.config/alacritty
+{{- end -}}
