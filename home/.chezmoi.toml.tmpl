@@ -40,6 +40,30 @@
 {{/*  Nothing to do for now */}}
 {{- end -}}
 
+{{- $distroData := joinPath .chezmoi.workingTree "data/distro.toml" | include | fromToml -}}
+{{- $osid := .chezmoi.os -}}
+{{- $distro := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $distro = .chezmoi.osRelease.id -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{- $family := "unknown" -}}
+{{- $package_manager := "unknown" -}}
+{{- if hasKey $distroData.distros $distro -}}
+{{-   $dConfig := index $distroData.distros $distro -}}
+{{-   $family = $dConfig.family -}}
+{{-   if hasKey $dConfig "package_manager" -}}
+{{-     $package_manager = index $dConfig "package_manager" -}}
+{{-   end -}}
+{{- end -}}
+{{- if eq $package_manager "unknown" -}}
+{{-   if hasKey $distroData.families $family -}}
+{{-     $package_manager = (index $distroData.families $family).package_manager -}}
+{{-   end -}}
+{{- end -}}
+
+
 [data]
     hosttype = {{ $hosttype | quote }}
     fancy = {{ $fancy | quote }}
@@ -48,3 +72,6 @@
     username = {{ $username | quote }}
     editor = {{ $editor | quote }}
     editor_bin = {{ $editor_bin | quote }}
+    distro = {{ $distro | quote }}
+    family = {{ $family | quote }}
+    package_manager = {{ $package_manager | quote }}

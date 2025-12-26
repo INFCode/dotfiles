@@ -1,0 +1,29 @@
+# Mapping distribution to family
+# optional package_manager field to override the default package manager for the family
+[distros.arch]
+family = "arch"
+
+[distros.manjaro]
+family = "arch"
+
+[distros.fedora]
+family = "rhel"
+
+[distros.tlinux]
+family = "rhel"
+
+[distros.tencentos]
+family = "rhel"
+
+# Mapping family to default package manager
+[families.arch]
+package_manager = "pacman"
+
+[families.rhel]
+package_manager = "dnf"
+
+[families.debian]
+package_manager = "apt"
+
+[families.darwin]
+package_manager = "brew"
