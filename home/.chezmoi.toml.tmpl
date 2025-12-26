@@ -1,8 +1,8 @@
 {{/* Custom config */}}
 
-{{- $hosttype := promptChoice "Which type of host is this" (list "work" "personal") -}}
-{{- $fancy := promptChoice "Enable fancy features" (list "all" "basic" "none") -}}
-{{- $headless := promptBool "Is this device headless" true -}}
+{{- $hosttype := promptChoiceOnce . "hosttype" "Which type of host is this" (list "work" "personal") "work" -}}
+{{- $fancy := promptChoiceOnce . "fancy" "Enable fancy features" (list "all" "basic" "none") "none" -}}
+{{- $headless := promptBoolOnce . "headless" "Is this device headless" true -}}
 
 {{/* Define all variables to make template happy */}}
 {{- $editor := "neovim" -}}
@@ -27,8 +27,8 @@
 {{- if eq $hosttype "personal" -}}
 {{/*  Nothing to do for now */}}
 {{- else if eq $hosttype "work" -}}
-{{-   $username = promptString "User name" -}}
-{{-   $email = promptString "Email" -}}
+{{-   $username = promptStringOnce . "username" "User name" -}}
+{{-   $email = promptStringOnce . "email" "Email" -}}
 {{- else -}}
 {{-   warnf "Unknown hosttype (%v)!" $hosttype -}}
 {{-   exit 1 -}}
