@@ -17,8 +17,8 @@
 {{- else if eq $fancy "basic" -}}
 {{/*  Nothing to do for now */}}
 {{- else if eq $fancy "none" -}}
-{{-   $editor := "vim" -}}
-{{-   $editor_bin := "vim" -}}
+{{-   $editor = "vim" -}}
+{{-   $editor_bin = "vim" -}}
 {{- else -}}
 {{-   warnf "Unknown fancy level (%v)!" $fancy -}}
 {{-   exit 1 -}}
@@ -27,8 +27,8 @@
 {{- if eq $hosttype "personal" -}}
 {{/*  Nothing to do for now */}}
 {{- else if eq $hosttype "work" -}}
-{{-   $username := promptString "User name" -}}
-{{-   $email := promptString "Email" -}}
+{{-   $username = promptString "User name" -}}
+{{-   $email = promptString "Email" -}}
 {{- else -}}
 {{-   warnf "Unknown hosttype (%v)!" $hosttype -}}
 {{-   exit 1 -}}
