@@ -17,7 +17,7 @@ family = "rhel"
 
 # Mapping family to default package manager
 [families.arch]
-package_manager = "pacman"
+package_manager = "paru"
 
 [families.rhel]
 package_manager = "dnf"
