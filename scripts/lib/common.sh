@@ -36,3 +36,12 @@ function require_tools() {
     require_tool "$tool"
   done
 }
+
+function confirm_operation() {
+  read -p "$1 [y/N] " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    die "operation cancelled by user"
+  fi
+  return 0
+}

@@ -15,7 +15,8 @@ function install_tool() {
     return 0
   fi
 
-  # Dependencies (bash, curl) are checked in deps/ scripts
+  confirm_operation "Homebrew not found, install it now?"
+
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   is_tool_exists brew || die "brew install script completed but brew is still not on PATH"

@@ -15,7 +15,7 @@ function install_tool() {
     return 0
   fi
 
-  # Dependencies (pacman, sudo, git, makepkg) are checked in deps/ scripts
+  confirm_operation "Paru not found, install it now?"
 
   local tmp
   tmp="$(mktemp -d)"
