@@ -21,9 +21,9 @@ function install_tool() {
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' EXIT
 
-  git -C "$tmp" clone --depth 1 https://aur.archlinux.org/paru-bin.git
+  git -C "$tmp" clone --depth 1 https://aur.archlinux.org/paru.git
   (
-    cd "$tmp/paru-bin"
+    cd "$tmp/paru"
     makepkg -si --noconfirm --needed
   )
 
