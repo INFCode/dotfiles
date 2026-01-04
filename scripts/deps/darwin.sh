@@ -10,8 +10,14 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 . "${SCRIPT_DIR}/../lib/common.sh"
 
 function main() {
-  # Caller decides whether this script runs on macOS; no OS detection here.
-  require_tool bash
+  require_tools bash xcode-select
+
+  # xcode-select may need to be installed even if it's already in PATH
+  # Try xcode-select -p because it succeeds only after Xcode CLI tools are installed.
+  # It requires GUI interaction so this cannot be automated.
+  if ! xcode-select -p &>/dev/null; then
+    die "xcode-select is not installed, run `xcode-select --install` to install it"
+  fi
 
   info "ok: darwin-specific dependencies present"
 }
