@@ -1,11 +1,13 @@
 [alias]
-        st = status
-        co = checkout
-        pushfl = push --force-with-lease
-        cmt = commit
-	cmtamne = commit --amend --no-edit
+    st = status
+    co = checkout
+    pushfl = push --force-with-lease
+    cmt = commit
+    cmtamne = commit --amend --no-edit
 [user]
-	name = {{ .username }}
-	email = {{ .email }}
+    name = {{ .username }}
+    email = {{ .email }}
 [core]
-	editor = {{ .editor_bin }}
+    editor = {{ .editor_bin }}
+[pull]
+    ff = only
