@@ -7,13 +7,14 @@
 {{/* Define all variables to make template happy */}}
 {{- $editor := "neovim" -}}
 {{- $editor_bin := "nvim" -}}{{/* name of editor binary */}}
+{{- $nvim_config := "custom" -}}
 {{- $username := "INFCode" -}}
 {{- $email := "INFCode@163.com" -}}
 
 {{/* Infer detailed config */}}
 
 {{- if eq $fancy "all" -}}
-{{/*  Nothing to do for now */}}
+{{-   $nvim_config = "lazyvim" -}}
 {{- else if eq $fancy "basic" -}}
 {{/*  Nothing to do for now */}}
 {{- else if eq $fancy "none" -}}
@@ -72,6 +73,7 @@
     username = {{ $username | quote }}
     editor = {{ $editor | quote }}
     editor_bin = {{ $editor_bin | quote }}
+    nvim_config = {{ $nvim_config | quote }}
     distro = {{ $distro | quote }}
     family = {{ $family | quote }}
     package_manager = {{ $package_manager | quote }}
