@@ -23,7 +23,7 @@ package_manager = "pacman"
 package_manager = "dnf"
 
 [families.debian]
-package_manager = "apt"
+package_manager = "apt-get"
 
 [families.darwin]
 package_manager = "brew"
