@@ -5,6 +5,7 @@
 {{- $headless := promptBoolOnce . "headless" "Is this device headless" true -}}
 
 {{/* Define all variables to make template happy */}}
+
 {{- $editor := "neovim" -}}
 {{- $editor_bin := "nvim" -}}{{/* name of editor binary */}}
 {{- $nvim_config := "custom" -}}
@@ -64,6 +65,15 @@
 {{-   end -}}
 {{- end -}}
 
+{{- if eq $family "unknown" -}}
+{{-   warnf "No matching family for osid %v" $osid -}}
+{{-   exit 1 -}}
+{{- end -}}
+
+{{- if eq $package_manager "unknown" -}}
+{{-   warnf "No matching package manager for osid %v" $osid -}}
+{{-   exit 1 -}}
+{{- end -}}
 
 [data]
     hosttype = {{ $hosttype | quote }}
