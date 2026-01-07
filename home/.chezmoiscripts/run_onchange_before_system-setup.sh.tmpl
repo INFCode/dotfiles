@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+if [ "${DOTFILES_DEBUG:-}" ]; then
+  set -x
+fi
+
+SCRIPT_PATH={{ joinPath .chezmoi.workingTree "scripts/" | quote }}
+
+# shellcheck source=../../scripts/lib/common.sh
+. "${SCRIPT_PATH}/lib/common.sh"
+
+function main() {
+  info "Checking common dependencies..."
+  ${SCRIPT_PATH}/deps/common.sh
+  {{ if ne .family "unknown" }}
+  info "Checking platform-specific dependencies..."
+  ${SCRIPT_PATH}/deps/{{ .family }}.sh
+  {{ end }}
+  {{ if eq .package_manager "brew" }}
+  info "Installing package manager..."
+  ${SCRIPT_PATH}/pkgmgr/ensure-brew.sh
+  {{ end }}
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main
+fi
