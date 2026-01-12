@@ -22,8 +22,7 @@
 {{-   $editor = "vim" -}}
 {{-   $editor_bin = "vim" -}}
 {{- else -}}
-{{-   warnf "Unknown fancy level (%v)!" $fancy -}}
-{{-   exit 1 -}}
+{{-   printf "Unknown fancy level (%v)!" $fancy | fail -}}
 {{- end -}}
 
 {{- if eq $hosttype "personal" -}}
@@ -32,8 +31,7 @@
 {{-   $username = promptStringOnce . "username" "User name" -}}
 {{-   $email = promptStringOnce . "email" "Email" -}}
 {{- else -}}
-{{-   warnf "Unknown hosttype (%v)!" $hosttype -}}
-{{-   exit 1 -}}
+{{-   printf "Unknown hosttype (%v)!" $hosttype | fail -}}
 {{- end -}}
 
 {{- if $headless -}}
@@ -66,13 +64,11 @@
 {{- end -}}
 
 {{- if eq $family "unknown" -}}
-{{-   warnf "No matching family for osid %v" $osid -}}
-{{-   exit 1 -}}
+{{-   printf "No matching family for osid %v" $osid | fail -}}
 {{- end -}}
 
 {{- if eq $package_manager "unknown" -}}
-{{-   warnf "No matching package manager for osid %v" $osid -}}
-{{-   exit 1 -}}
+{{-   printf "No matching package manager for osid %v" $osid | fail -}}
 {{- end -}}
 
 [data]
