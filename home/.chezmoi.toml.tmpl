@@ -1,8 +1,9 @@
 {{/* Custom config */}}
 
 {{- $hosttype := promptChoiceOnce . "hosttype" "Which type of host is this" (list "work" "personal") "work" -}}
-{{- $fancy := promptChoiceOnce . "fancy" "Enable fancy features" (list "all" "basic" "none") "none" -}}
+{{- $feature := promptChoiceOnce . "feature" "Enable feature group" (list "full" "basic" "minimal") "minimal" -}}
 {{- $headless := promptBoolOnce . "headless" "Is this device headless" true -}}
+{{- $experiment := promptBoolOnce . "experiment" "Enable experimental features" false -}}
 
 {{/* Define all variables to make template happy */}}
 
@@ -11,18 +12,28 @@
 {{- $nvim_config := "custom" -}}
 {{- $username := "INFCode" -}}
 {{- $email := "INFCode@163.com" -}}
+{{- $fanciness := 0 -}}
 
 {{/* Infer detailed config */}}
 
-{{- if eq $fancy "all" -}}
-{{-   $nvim_config = "lazyvim" -}}
-{{- else if eq $fancy "basic" -}}
-{{/*  Nothing to do for now */}}
-{{- else if eq $fancy "none" -}}
+{{/* feature to fanciness */}}
+{{- if eq $feature "full" -}}
+{{-   $fanciness = 2 -}}
+{{- else if eq $feature "basic" -}}
+{{-   $fanciness = 1 -}}
+{{- else if eq $feature "minimal" -}}
+{{-   $fanciness = 0 -}}
+{{- else -}}
+{{-   printf "Unknown feature level (%v)!" $feature | fail -}}
+{{- end -}}
+
+{{- if eq $fanciness 0 -}}
 {{-   $editor = "vim" -}}
 {{-   $editor_bin = "vim" -}}
-{{- else -}}
-{{-   printf "Unknown fancy level (%v)!" $fancy | fail -}}
+{{- end -}}
+
+{{- if not $experiment -}}
+{{-   $nvim_config := "lazyvim" -}}
 {{- end -}}
 
 {{- if eq $hosttype "personal" -}}
@@ -73,7 +84,9 @@
 
 [data]
     hosttype = {{ $hosttype | quote }}
-    fancy = {{ $fancy | quote }}
+    feature = {{ $feature | quote }}
+    fanciness = {{ $fanciness }}
+    experiment = {{ $experiment }}
     headless = {{ $headless }}
     email = {{ $email | quote }}
     username = {{ $username | quote }}
@@ -83,3 +96,8 @@
     distro = {{ $distro | quote }}
     family = {{ $family | quote }}
     package_manager = {{ $package_manager | quote }}
+
+[data.constants]
+    fanciness_full = 2
+    fanciness_basic = 1
+    fanciness_minimal = 0
