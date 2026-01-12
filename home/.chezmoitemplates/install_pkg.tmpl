@@ -1,0 +1,8 @@
+{{- if not (hasKey . "name") -}}
+{{-   fail "install_pkg.tmpl: missing 'name' parameter" -}}
+{{- end -}}
+{{- if not (hasKey . "package_manager") -}}
+{{-   fail "install_pkg.tmpl: missing 'package_manager' parameter" -}}
+{{- end -}}
+{{- $script := joinPath .chezmoi.workingTree "scripts/pkgmgr" (printf "%s-install.sh" .package_manager) -}}
+{{ $script | quote }} {{ .name | quote }}
