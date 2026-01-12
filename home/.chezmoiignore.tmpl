@@ -1,9 +1,24 @@
 {{- if ne .editor "neovim" -}}
-.config/nvim
+.config/nvim*
 {{- else if ne .editor "vim" -}}
 {{/*  No vim config for now */}}
 {{- end -}}
 
-{{- if .headless }}
+{{- if .headless -}}
 .config/alacritty
+{{- end -}}
+
+{{- if le .fanciness .constants.fanciness_minimal -}}
+{{/*  Enabled only when fanciness > minimal */}}
+.config/fish
+.config/oh-my-posh
+.config/uv
+{{- else -}}
+{{/*  Enabled only when fanciness <= minimal */}}
+{{/*  vim config will be here */}}
+{{- end -}}
+
+{{- if le .fanciness .constants.fanciness_basic -}}
+{{/*  Enabled only when fanciness > basic */}}
+.cargo
 {{- end -}}
