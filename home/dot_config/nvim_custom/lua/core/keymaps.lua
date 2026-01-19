@@ -1,20 +1,19 @@
-local map = vim.keymap.set
-local default_opts = { noremap = true, silent = true }
+local map = _G.Config.keymap
 
-map("i", "jk", "<ESC>", default_opts)
-map("n", "x", '"_x', default_opts) -- don't pollute the register
+map("i", "jk", "<ESC>", "Exit Insert Mode")
+map("n", "x", '"_x', "Delete Char (No Copy)") -- don't pollute the register
 
--- Moving between tabs
-map('n', '<Tab>', ':bnext<CR>', default_opts)
-map('n', '<S-Tab>', ':bprevious<CR>', default_opts)
+-- Buffer Navigation
+map('n', '<Tab>', '<Cmd>bnext<CR>', "Next Buffer")
+map('n', '<S-Tab>', '<Cmd>bprevious<CR>', "Prev Buffer")
 
 -- Window management
-map('n', '<leader>s', '<C-w>v', default_opts) -- split window vertically
-map('n', '<leader>sh', '<C-w>s', default_opts) -- split window horizontally
+map('n', '<leader>sv', '<C-w>v', "Split Window Vertically")
+map('n', '<leader>sh', '<C-w>s', "Split Window Horizontally")
 
 -- Resize splits with Ctrl-arrows
--- TODO: maybe there's a better way?
-map('n', '<C-Up>', ':resize -2<CR>', default_opts)
-map('n', '<C-Down>', ':resize +2<CR>', default_opts)
-map('n', '<C-Left>', ':vertical resize -2<CR>', default_opts)
-map('n', '<C-Right>', ':vertical resize +2<CR>', default_opts)
+-- TODO: maybe there's a better way? 'mrjones2014/smart-splits.nvim'?
+map('n', '<C-Up>', '<Cmd>resize -2<CR>', "Resize Split Up")
+map('n', '<C-Down>', '<Cmd>resize +2<CR>', "Resize Split Down")
+map('n', '<C-Left>', '<Cmd>vertical resize -2<CR>', "Resize Split Left")
+map('n', '<C-Right>', '<Cmd>vertical resize +2<CR>', "Resize Split Right")
