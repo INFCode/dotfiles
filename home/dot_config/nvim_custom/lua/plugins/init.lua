@@ -16,6 +16,7 @@ local deps = require("mini.deps")
 deps.setup({ path = { package = path_package } })
 
 require("plugins.colorscheme")
+require("plugins.visual")
 require("plugins.ui")
 require("plugins.treesitter")
 require("plugins.cmp")
