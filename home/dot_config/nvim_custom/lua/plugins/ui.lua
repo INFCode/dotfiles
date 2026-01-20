@@ -13,6 +13,18 @@ MiniDeps.now(function()
     popup_border_style = "NC",   -- or "" to use 'winborder' on Neovim v0.11+
     enable_git_status = true,
     enable_diagnostics = true,
+    filesystem = {
+      follow_current_file = { enabled = true },
+      use_libuv_file_watcher = true,
+    },
+    default_component_configs = {
+      indent = {
+        with_expanders = true,
+        expander_collapsed = "",
+        expander_expanded = "",
+        expander_highlight = "NeoTreeExpander",
+      },
+    },
   })
-  _G.Config.keymap("n", "<leader>nt", "<Cmd>Neotree<CR>", "Toggle Neo-tree")
+  _G.Config.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
 end)
