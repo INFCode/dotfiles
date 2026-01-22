@@ -15,6 +15,9 @@ family = "rhel"
 [distros.tencentos]
 family = "rhel"
 
+[distros.darwin]
+family = "darwin"
+
 # Mapping family to default package manager
 [families.arch]
 package_manager = "pacman"
