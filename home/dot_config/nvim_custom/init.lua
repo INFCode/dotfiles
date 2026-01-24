@@ -16,8 +16,9 @@ _G.Custom.keymap = function(mode, lhs, rhs, desc)
   vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
 end
 
-require("core")
+_G.Custom.config = require("config")
 
+require("core")
 if not vim.g.vscode then
   require("plugins")
 end
