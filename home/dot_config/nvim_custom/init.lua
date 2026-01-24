@@ -17,4 +17,8 @@ _G.Config.keymap = function(mode, lhs, rhs, desc)
 end
 
 require("core")
-require("plugins")
+
+if not vim.g.vscode then
+  require("plugins")
+end
+
