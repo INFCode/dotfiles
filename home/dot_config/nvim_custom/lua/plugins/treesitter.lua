@@ -27,7 +27,7 @@ local install_missing_parsers = function(languages)
 end
 
 -- Enable tree-sitter after opening a file for a target language
-local get_ts_filetypes= function(languages)
+local get_ts_filetypes = function(languages)
   local filetypes = {}
   for _, lang in ipairs(languages) do
     for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
@@ -41,7 +41,7 @@ local register_autocmd = function(filetypes)
   local ts_start = function(ev)
     vim.treesitter.start(ev.buf)
   end
-  _G.Config.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
+  _G.Custom.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end
 
 -- Define languages which will have parsers installed and auto enabled

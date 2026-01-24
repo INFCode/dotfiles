@@ -26,5 +26,5 @@ MiniDeps.now(function()
       },
     },
   })
-  _G.Config.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
+  _G.Custom.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
 end)
