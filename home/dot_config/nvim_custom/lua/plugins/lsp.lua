@@ -21,9 +21,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 
 local setup_capabilities = function()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
   local blink = require("blink.cmp")
-  capabilities = blink.get_lsp_capabilities(capabilities)
+  local capabilities = blink.get_lsp_capabilities()
   vim.lsp.config("*", { capabiliteis = capabilities })
 end
 
