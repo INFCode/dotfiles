@@ -17,10 +17,10 @@ function helpers.index(tbl, index, flatten)
 
   local result = {}
   for _, idx in ipairs(index) do
-    local value = tbl[idx] or {}
+    local value = tbl[idx]
 
     if flatten then
-      vim.list_extend(result, value)
+      vim.list_extend(result, value or {})
     else
       result[idx] = value
     end
