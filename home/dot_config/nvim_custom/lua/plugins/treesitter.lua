@@ -26,6 +26,27 @@ local install_missing_parsers = function(languages)
   end
 end
 
+local setup_ts_textobject = function()
+  require("nvim-treesitter-textobjects").setup {
+    select = {
+      -- Auto jump forward to the next textobject
+      lookahead = true,
+      -- Per-capture selection mode
+      selection_modes = {
+        -- ["@parameter.outer"] = "v", -- charwise, default
+        ["@function.outer"] = "V", -- linewise
+        -- ["@class.outer"]   = "<c-v>", -- blockwise
+      },
+      -- Whether to include surrounding whitespace when selecting
+      -- include_surrounding_whitespace = false, -- dont include whitespace, default
+    },
+    move = {
+      -- Add jumps to jumplist (so you can <C-o>/<C-i> back/forward)
+      set_jumps = true, -- default
+    },
+  }
+end
+
 -- Enable tree-sitter after opening a file for a target language
 local get_ts_filetypes = function(languages)
   local filetypes = {}
@@ -37,29 +58,123 @@ local get_ts_filetypes = function(languages)
   return filetypes
 end
 
+local register_textobject_keymap_select = function()
+  local ts_select        = require("nvim-treesitter-textobjects.select")
+  local map              = _G.Custom.helpers.keymap
+
+  -- helper: bind select textobject
+  local bind_select      = function(lhs, query, group, desc)
+    map({ "x", "o" }, lhs, function()
+      ts_select.select_textobject(query, group)
+    end, desc)
+  end
+
+  -- helper: bind select textobject common logic
+  local bind_select_comm = function(query_name, key_name, is_around)
+    local lhs_prefix = is_around and "a" or "i"
+    local lhs = string.format("%s%s", lhs_prefix, key_name)
+
+    local range = is_around and "outer" or "inner"
+    local query = string.format("@%s.%s", query_name, range)
+
+    local range_name = is_around and "around" or "inside"
+    local desc = string.format("[TS Select]: %s %s", range_name, query_name)
+
+    bind_select(lhs, query, "textobjects", desc)
+  end
+
+  local select_maps      = {
+    { "as", "@local.scope", "locals", "[TS Select]: around scope" },
+  }
+
+  for _, m in ipairs(select_maps) do
+    bind_select(m[1], m[2], m[3], m[4])
+  end
+
+  local select_ai_queries = {
+    { "function",  "f" },
+    { "class",     "c" },
+    { "loop",      "l" },
+    { "block",     "b" },
+    { "parameter", "a" },
+  }
+
+  for _, query in ipairs(select_ai_queries) do
+    bind_select_comm(query[1], query[2], true)
+    bind_select_comm(query[1], query[2], false)
+  end
+end
+
+local register_textobject_keymap_move = function()
+  local ts_move        = require("nvim-treesitter-textobjects.move")
+  local map            = _G.Custom.helpers.keymap
+
+  -- helper: bind move
+  local bind_move      = function(lhs, method, query, group, desc)
+    map({ "n", "x", "o" }, lhs, function()
+      ts_move[method](query, group)
+    end, desc)
+  end
+
+  -- helper: bind move common logic
+  local bind_move_comm = function(query_name, key_name, is_next, is_start)
+    local lhs_prefix = is_next and "]" or "["
+    local lhs_key
+    if type(key_name) == "table" then
+      lhs_key = key_name[is_start and 1 or 2]
+    else
+      lhs_key = is_start and key_name or string.upper(key_name)
+    end
+    local lhs = string.format("%s%s", lhs_prefix, lhs_key)
+
+    local method_direction = is_next and "next" or "previous"
+    local method_target = is_start and "start" or "end"
+    local method = string.format("goto_%s_%s", method_direction, method_target)
+
+    local query = string.format("@%s.outer", query_name)
+
+    local desc = string.format("[TS Move]: %s %s %s", method_direction, query_name, method_target)
+
+    bind_move(lhs, method, query, "textobjects", desc)
+  end
+
+  local move_maps      = {
+    { "]o", "goto_next_start", { "@loop.inner", "@loop.outer" }, "textobjects", "[TS move]: next loop start" },
+    { "]s", "goto_next_start", "@local.scope",                   "locals",      "[TS move]: next scope start" },
+  }
+
+  for _, m in ipairs(move_maps) do
+    bind_move(m[1], m[2], m[3], m[4], m[5])
+  end
+
+  local move_queries = {
+    { "function",  "f" },
+    { "class",     { "[", "]" } },
+    { "parameter", "a" }
+  }
+
+  for _, m in ipairs(move_queries) do
+    bind_move_comm(m[1], m[2], true, true)
+    bind_move_comm(m[1], m[2], true, false)
+    bind_move_comm(m[1], m[2], false, true)
+    bind_move_comm(m[1], m[2], false, false)
+  end
+end
+
 local register_autocmd = function(filetypes)
   local ts_start = function(ev)
+    register_textobject_keymap_select()
+    register_textobject_keymap_move()
     vim.treesitter.start(ev.buf)
   end
   _G.Custom.helpers.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end
 
--- Define languages which will have parsers installed and auto enabled
-local languages = {
-  -- pre-installed with Neovim
-  'c',
-  'lua',
-  'markdown',
-  'vimdoc',
-  -- Add here more languages with which you want to use tree-sitter
-  -- To see available languages:
-  -- - Execute `:=require('nvim-treesitter').get_available()`
-  -- - Visit 'SUPPORTED_LANGUAGES.md' file at
-  --   https://github.com/nvim-treesitter/nvim-treesitter/blob/main
-}
-
-MiniDeps.later(function()
+MiniDeps.now(function()
+  local languages = _G.Custom.config.languages
   install_missing_parsers(languages)
+  setup_ts_textobject()
+
   local ts_filetypes = get_ts_filetypes(languages)
   register_autocmd(ts_filetypes)
 end)
