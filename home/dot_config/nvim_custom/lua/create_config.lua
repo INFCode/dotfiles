@@ -1,6 +1,5 @@
 return {
-  extra_ls = {
-    -- "ty",
-    -- "ruff",
+  languages = {
+    -- "python"
   }
 }
