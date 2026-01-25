@@ -20,16 +20,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 
-local setup_capabilities = function (configs)
+local setup_capabilities = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   local blink = require("blink.cmp")
   capabilities = blink.get_lsp_capabilities(capabilities)
   vim.lsp.config("*", { capabiliteis = capabilities })
 end
 
-local enable_ls = { "lua_ls" }
+local ls_to_enable = function()
+  local default_ls = { "lua_ls" }
+  local extra_ls = _G.Custom.config.extra_ls or {}
+  return vim.list_extend(default_ls, extra_ls)
+end
 
 MiniDeps.now(function()
   setup_capabilities()
-  vim.lsp.enable(enable_ls)
+  vim.lsp.enable(ls_to_enable())
 end)
