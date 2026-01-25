@@ -1,5 +1,6 @@
 return {
   extra_lsp = {
-    "ty"
+    -- "ty",
+    -- "ruff",
   }
 }
