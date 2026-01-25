@@ -1,5 +1,6 @@
 return {
   languages = {
-    -- "python"
+    "lua",
+    -- "python",
   }
 }

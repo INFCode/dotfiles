@@ -28,13 +28,11 @@ end
 
 local language_to_ls = {
   python = { "ty", "ruff" },
+  lua = { "lua_ls" }
 }
 
-local default_ls = { "lua_ls" }
-
 local ls_to_enable = function()
-  local extra_ls = _G.Custom.helpers.index(language_to_ls, _G.Custom.config.languages, true)
-  return vim.list_extend(default_ls, extra_ls)
+  return _G.Custom.helpers.index(language_to_ls, _G.Custom.config.languages, true)
 end
 
 MiniDeps.now(function()
