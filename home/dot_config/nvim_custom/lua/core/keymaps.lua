@@ -1,4 +1,4 @@
-local map = _G.Custom.keymap
+local map = _G.Custom.helpers.keymap
 
 map("i", "jk", "<ESC>", "Exit Insert Mode")
 map("n", "x", '"_x', "Delete Char (No Copy)") -- don't pollute the register

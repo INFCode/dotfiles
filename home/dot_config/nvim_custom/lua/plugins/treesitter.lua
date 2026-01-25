@@ -41,7 +41,7 @@ local register_autocmd = function(filetypes)
   local ts_start = function(ev)
     vim.treesitter.start(ev.buf)
   end
-  _G.Custom.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
+  _G.Custom.helpers.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end
 
 -- Define languages which will have parsers installed and auto enabled

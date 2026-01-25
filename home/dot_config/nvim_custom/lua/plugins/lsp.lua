@@ -27,18 +27,14 @@ local setup_capabilities = function()
 end
 
 local language_to_ls = {
-  python = { "ty", "ruff" }
+  python = { "ty", "ruff" },
 }
 
 local default_ls = { "lua_ls" }
 
 local ls_to_enable = function()
-  local enabled_languages = _G.Custom.config.languages or {}
-  local all_ls = default_ls
-  for _, lang in ipairs(enabled_languages) do
-    vim.list_extend(all_ls, language_to_ls[lang] or {})
-  end
-  return all_ls
+  local extra_ls = _G.Custom.helpers.index(language_to_ls, _G.Custom.config.languages, true)
+  return vim.list_extend(default_ls, extra_ls)
 end
 
 MiniDeps.now(function()

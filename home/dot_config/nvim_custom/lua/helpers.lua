@@ -1,0 +1,32 @@
+local helpers = {}
+
+local gr = vim.api.nvim_create_augroup('CustomCommands', { clear = true })
+function helpers.autocmd(event, pattern, callback, desc)
+  local opts = { group = gr, pattern = pattern, callback = callback, desc = desc }
+  vim.api.nvim_create_autocmd(event, opts)
+end
+
+function helpers.keymap(mode, lhs, rhs, desc)
+  vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
+end
+
+function helpers.index(tbl, index, flatten)
+  if not index or index == {} then
+    return {}
+  end
+
+  local result = {}
+  for _, idx in ipairs(index) do
+    local value = tbl[idx] or {}
+
+    if flatten then
+      vim.list_extend(result, value)
+    else
+      result[idx] = value
+    end
+  end
+
+  return result
+end
+
+return helpers
