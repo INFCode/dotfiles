@@ -29,16 +29,8 @@ end
 local setup_ts_textobject = function()
   require("nvim-treesitter-textobjects").setup {
     select = {
-      -- Auto jump forward to the next textobject
-      lookahead = true,
-      -- Per-capture selection mode
-      selection_modes = {
-        -- ["@parameter.outer"] = "v", -- charwise, default
-        ["@function.outer"] = "V", -- linewise
-        -- ["@class.outer"]   = "<c-v>", -- blockwise
-      },
-      -- Whether to include surrounding whitespace when selecting
-      -- include_surrounding_whitespace = false, -- dont include whitespace, default
+      -- use mini.ai instead
+      enable = false,
     },
     move = {
       -- Add jumps to jumplist (so you can <C-o>/<C-i> back/forward)
@@ -56,53 +48,6 @@ local get_ts_filetypes = function(languages)
     end
   end
   return filetypes
-end
-
-local register_textobject_keymap_select = function()
-  local ts_select        = require("nvim-treesitter-textobjects.select")
-  local map              = _G.Custom.helpers.keymap
-
-  -- helper: bind select textobject
-  local bind_select      = function(lhs, query, group, desc)
-    map({ "x", "o" }, lhs, function()
-      ts_select.select_textobject(query, group)
-    end, desc)
-  end
-
-  -- helper: bind select textobject common logic
-  local bind_select_comm = function(query_name, key_name, is_around)
-    local lhs_prefix = is_around and "a" or "i"
-    local lhs = string.format("%s%s", lhs_prefix, key_name)
-
-    local range = is_around and "outer" or "inner"
-    local query = string.format("@%s.%s", query_name, range)
-
-    local range_name = is_around and "around" or "inside"
-    local desc = string.format("[TS Select]: %s %s", range_name, query_name)
-
-    bind_select(lhs, query, "textobjects", desc)
-  end
-
-  local select_maps      = {
-    { "as", "@local.scope", "locals", "[TS Select]: around scope" },
-  }
-
-  for _, m in ipairs(select_maps) do
-    bind_select(m[1], m[2], m[3], m[4])
-  end
-
-  local select_ai_queries = {
-    { "function",  "f" },
-    { "class",     "c" },
-    { "loop",      "l" },
-    { "block",     "b" },
-    { "parameter", "a" },
-  }
-
-  for _, query in ipairs(select_ai_queries) do
-    bind_select_comm(query[1], query[2], true)
-    bind_select_comm(query[1], query[2], false)
-  end
 end
 
 local register_textobject_keymap_move = function()
@@ -163,7 +108,6 @@ end
 
 local register_autocmd = function(filetypes)
   local ts_start = function(ev)
-    register_textobject_keymap_select()
     register_textobject_keymap_move()
     vim.treesitter.start(ev.buf)
   end
