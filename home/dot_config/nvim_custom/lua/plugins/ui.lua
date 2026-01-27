@@ -25,6 +25,19 @@ MiniDeps.now(function()
         expander_highlight = "NeoTreeExpander",
       },
     },
+    event_handlers = {
+      {
+        event = "neo_tree_window_after_open",
+        handler = function(args)
+          if args.position == "left" or args.position == "right" then
+            local min_width = 30
+            local max_width = 60
+            local target_width = math.min(math.max(math.floor(vim.o.columns * 0.2), min_width), max_width)
+            vim.api.nvim_win_set_width(args.winid, target_width)
+          end
+        end,
+      },
+    },
   })
   _G.Custom.helpers.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
 end)
