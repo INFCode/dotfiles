@@ -27,3 +27,10 @@ MiniDeps.now(function()
     animation = indentscope.gen_animation.quadratic()
   })
 end)
+
+-- peeks lines of the buffer in non-obtrusive way
+MiniDeps.add('nacro90/numb.nvim')
+
+MiniDeps.later(function()
+  require('numb').setup()
+end)
