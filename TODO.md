@@ -26,8 +26,8 @@ Check these plugins later:
 
 [ ] `avante.nvim`: use neovim like cursor
 [x] `mini.ai`: better `a/i` operations 
-[ ] `mini.diff`: general purpose diff plugin
-[ ] `mini.git`: git integration
+[x] `mini.diff`: general purpose diff plugin
+[x] `mini.git`: git integration
 [ ] `mini.tabline`: minimal and fast tabline showing listed buffers
 [x] `mini.statusline`: replace lualine
 
