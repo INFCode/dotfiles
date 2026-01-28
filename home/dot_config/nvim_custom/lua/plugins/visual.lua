@@ -34,3 +34,17 @@ MiniDeps.add('nacro90/numb.nvim')
 MiniDeps.later(function()
   require('numb').setup()
 end)
+
+
+-- pattern-based highlighting
+MiniDeps.add('nvim-mini/mini.hipatterns')
+MiniDeps.later(function()
+  require('mini.hipatterns').setup({
+    highlighters = {
+      fixme = { pattern = 'FIXME', group = 'MiniHipatternsFixme' },
+      hack  = { pattern = 'HACK', group = 'MiniHipatternsHack' },
+      todo  = { pattern = 'TODO', group = 'MiniHipatternsTodo' },
+      note  = { pattern = 'NOTE', group = 'MiniHipatternsNote' },
+    }
+  })
+end)
