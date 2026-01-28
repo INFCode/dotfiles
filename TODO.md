@@ -29,7 +29,7 @@ Check these plugins later:
 [ ] `mini.diff`: general purpose diff plugin
 [ ] `mini.git`: git integration
 [ ] `mini.tabline`: minimal and fast tabline showing listed buffers
-[ ] `mini.statusline`: replace lualine
+[x] `mini.statusline`: replace lualine
 
 Other improvements
 
