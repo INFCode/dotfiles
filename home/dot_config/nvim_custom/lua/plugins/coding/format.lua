@@ -1,26 +1,27 @@
-MiniDeps.add("stevearc/conform.nvim")
+local M = {}
 
-local all_formatters_by_ft = {
-  python = {
-    "ruff_fix",
-    "ruff_format",
-    "ruff_organize_imports",
-  },
-}
-
-local get_active_formatters = function()
-  return _G.Custom.helpers.index(all_formatters_by_ft, _G.Custom.config.languages)
+local register_plugin = function()
+  MiniDeps.add("stevearc/conform.nvim")
 end
 
-MiniDeps.later(function()
-  local conform = require("conform")
-  conform.setup({
-    formatters_by_ft = get_active_formatters(),
-    default_format_opts = {
-      lsp_format = "fallback",
-    },
-    format_on_save = {
-      timeout_ms = 500,
-    },
-  })
-end)
+local configure_conform = function(formatters_by_ft)
+  MiniDeps.later(function()
+    local conform = require("conform")
+    conform.setup({
+      formatters_by_ft = formatters_by_ft or {},
+      default_format_opts = {
+        lsp_format = "fallback",
+      },
+      format_on_save = {
+        timeout_ms = 500,
+      },
+    })
+  end)
+end
+
+function M.setup(formatters_by_ft)
+  register_plugin()
+  configure_conform(formatters_by_ft)
+end
+
+return M

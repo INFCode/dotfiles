@@ -1,11 +1,18 @@
-MiniDeps.add("mfussenegger/nvim-lint")
+local M = {}
 
-local all_linters_by_ft = {}
-
-local get_active_linters = function()
-  return _G.Custom.helpers.index(all_linters_by_ft, _G.Custom.config.languages)
+local register_plugin = function()
+  MiniDeps.add("mfussenegger/nvim-lint")
 end
 
-MiniDeps.later(function()
-  require('lint').linters_by_ft = get_active_linters()
-end)
+local configure_lint = function(linters_by_ft)
+  MiniDeps.later(function()
+    require("lint").linters_by_ft = linters_by_ft or {}
+  end)
+end
+
+function M.setup(linters_by_ft)
+  register_plugin()
+  configure_lint(linters_by_ft)
+end
+
+return M

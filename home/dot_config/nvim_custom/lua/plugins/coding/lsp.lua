@@ -1,24 +1,28 @@
-MiniDeps.add({
-  source = "neovim/nvim-lspconfig"
-})
+local M = {}
 
--- buffer-local keymaps on LspAttach
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local bufnr = args.buf
-    local map = function(mode, lhs, rhs, desc)
-      vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
-    end
+local register_plugin = function()
+  MiniDeps.add({
+    source = "neovim/nvim-lspconfig"
+  })
+end
 
-    map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-    map("n", "gr", vim.lsp.buf.references, "References")
-    map("n", "K", vim.lsp.buf.hover, "Hover")
-    map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-    map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
-    map("n", "<leader>fd", vim.diagnostic.open_float, "Line diagnostics")
-  end,
-})
+local setup_hook = function()
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local bufnr = args.buf
+      local map = function(mode, lhs, rhs, desc)
+        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+      end
 
+      map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+      map("n", "gr", vim.lsp.buf.references, "References")
+      map("n", "K", vim.lsp.buf.hover, "Hover")
+      map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+      map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
+      map("n", "<leader>fd", vim.diagnostic.open_float, "Line diagnostics")
+    end,
+  })
+end
 
 local setup_capabilities = function()
   local blink = require("blink.cmp")
@@ -26,16 +30,18 @@ local setup_capabilities = function()
   vim.lsp.config("*", { capabiliteis = capabilities })
 end
 
-local language_to_ls = {
-  python = { "ty", "ruff" },
-  lua = { "lua_ls" }
-}
-
-local ls_to_enable = function()
-  return _G.Custom.helpers.index(language_to_ls, _G.Custom.config.languages, true)
+local enable_servers = function(ls_by_ft)
+  local ls_servers = vim.iter(vim.tbl_values(ls_by_ft or {})):flatten():totable()
+  vim.lsp.enable(ls_servers)
 end
 
-MiniDeps.now(function()
-  setup_capabilities()
-  vim.lsp.enable(ls_to_enable())
-end)
+function M.setup(ls_by_ft)
+  register_plugin()
+  MiniDeps.now(function()
+    setup_hook()
+    setup_capabilities()
+    enable_servers(ls_by_ft)
+  end)
+end
+
+return M
