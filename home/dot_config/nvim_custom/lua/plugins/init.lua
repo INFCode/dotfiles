@@ -15,8 +15,6 @@ vim.opt.rtp:prepend(deps_path)
 local deps = require("mini.deps")
 deps.setup({ path = { package = path_package } })
 
-require("plugins.colorscheme")
-require("plugins.visual")
 require("plugins.ui")
 require("plugins.structure")
 require("plugins.coding")
