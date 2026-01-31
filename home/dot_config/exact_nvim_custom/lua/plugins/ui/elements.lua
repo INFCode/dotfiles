@@ -47,3 +47,9 @@ MiniDeps.add("nvim-mini/mini.statusline")
 MiniDeps.now(function()
   require('mini.statusline').setup()
 end)
+
+MiniDeps.add("nvim-mini/mini.notify")
+MiniDeps.later(require("mini.notify").setup)
+
+MiniDeps.add("nvim-mini/mini.pick")
+MiniDeps.later(require("mini.pick").setup)
