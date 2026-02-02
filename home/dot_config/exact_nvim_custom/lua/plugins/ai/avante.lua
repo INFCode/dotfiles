@@ -1,3 +1,18 @@
+local make_avante = function(args)
+  local path = args.path
+  vim.notify("Building avante.nvim...", vim.log.levels.INFO)
+  local notify_result = function(result)
+    if result.code == 0 then
+      vim.notify("Successfully built avante.nvim", vim.log.levels.INFO)
+    else
+      vim.notify("Failed to build avante.nvim, error code = " .. result.code, vim.log.levels.ERROR)
+      vim.notify("Stdout: " .. result.stdout, vim.log.levels.ERROR)
+      vim.notify("Stderr: " .. result.stderr, vim.log.levels.ERROR)
+    end
+  end
+  vim.system({ "make" }, { cwd = path }, notify_result)
+end
+
 MiniDeps.add({
   source = 'yetone/avante.nvim',
   monitor = 'main',
@@ -7,10 +22,8 @@ MiniDeps.add({
     'echasnovski/mini.icons'
   },
   hooks = {
-    post_checkout = function()
-      vim.notify("Building avante.nvim", vim.log.levels.INFO)
-      vim.cmd('make')
-    end
+    post_install = make_avante,
+    post_checkout = make_avante,
   }
 })
 
