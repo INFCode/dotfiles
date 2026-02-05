@@ -7,6 +7,7 @@ end
 _G.Custom = {}
 _G.Custom.helpers = require("helpers")
 _G.Custom.config = require("config")
+_G.Custom.metadata = require("metadata")
 
 require("core")
 if not vim.g.vscode then
