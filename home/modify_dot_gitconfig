@@ -1,0 +1,63 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $stdin := .chezmoi.stdin -}}
+
+{{- /* Extract and preserve all [url "..."] sections from original file */ -}}
+{{- $urlSections := "" -}}
+{{- range (splitList "\n" $stdin) -}}
+{{-   if or (hasPrefix "[url " .) (hasPrefix "\tinsteadOf" .) (hasPrefix "    insteadOf" .) -}}
+{{-     $urlSections = printf "%s%s\n" $urlSections . -}}
+{{-   end -}}
+{{- end -}}
+
+{{- /* Parse non-url config */ -}}
+{{- $config := dict -}}
+{{- if $stdin -}}
+{{-   $config = fromIni $stdin -}}
+{{- end -}}
+
+{{- /* Remove url sections from config */ -}}
+{{- range $key, $_ := $config -}}
+{{-   if hasPrefix "url " $key -}}
+{{-     $_ := unset $config $key -}}
+{{-   end -}}
+{{- end -}}
+
+{{- /* Merge alias configuration */ -}}
+{{- $alias := dict 
+    "st" "status"
+    "co" "checkout"
+    "pushfl" "push --force-with-lease"
+    "cmt" "commit"
+    "cmtamne" "commit --amend --no-edit"
+-}}
+{{- $_ := set $config "alias" (merge $alias (get $config "alias" | default dict)) -}}
+
+{{- /* Set user configuration, template values have lower priority */ -}}
+{{- $user := dict "name" .username "email" .email -}}
+{{- $_ := set $config "user" (merge (get $config "user" | default dict) $user) -}}
+
+{{- /* Set core configuration */ -}}
+{{- $core := dict "editor" .editor_bin -}}
+{{- $_ := set $config "core" (merge $core (get $config "core" | default dict)) -}}
+
+{{- /* Set pull configuration */ -}}
+{{- $pull := dict "ff" "only" -}}
+{{- $_ := set $config "pull" (merge $pull (get $config "pull" | default dict)) -}}
+
+{{- /* Set push configuration */ -}}
+{{- $push := dict "autoSetupRemote" "true" -}}
+{{- $_ := set $config "push" (merge $push (get $config "push" | default dict)) -}}
+
+{{- /* Output with indentation */ -}}
+{{- range $section, $values := $config -}}
+[{{ $section }}]
+{{-   range $key, $value := $values }}
+    {{ $key }} = {{ $value }}
+{{-   end }}
+
+{{ end -}}
+
+{{- /* Append preserved url sections */ -}}
+{{- if $urlSections -}}
+{{- $urlSections -}}
+{{- end -}}
