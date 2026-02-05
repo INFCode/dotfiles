@@ -16,6 +16,7 @@ local deps = require("mini.deps")
 deps.setup({ path = { package = path_package } })
 
 require("plugins.ui")
+require("plugins.motion")
 require("plugins.structure")
 require("plugins.coding")
 require("plugins.git")
