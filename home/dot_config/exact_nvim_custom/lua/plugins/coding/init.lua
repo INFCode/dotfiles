@@ -11,6 +11,9 @@ local language_tools = {
   lua = {
     ls = { "lua_ls" },
   },
+  rust = {
+    ls = { "rust_analyzer" }
+  },
 }
 
 local languages = _G.Custom.config.languages or {}
