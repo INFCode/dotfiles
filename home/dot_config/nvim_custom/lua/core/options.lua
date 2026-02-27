@@ -9,7 +9,6 @@ opt.number = true         -- Make line numbers default (default: false)
 opt.relativenumber = true -- Set relative numbered lines (default: false)
 opt.wrap = false          -- Display lines as one long line (default: true)
 vim.opt.laststatus = 3    -- last window will always have a status line but only for the last one
-
 -- search
 opt.incsearch = true
 
@@ -28,3 +27,7 @@ opt.splitright = true -- Force all vertical splits to go to the right of current
 
 -- clipboard
 opt.clipboard:append({ "unnamedplus" }) -- Sync clipboard between OS and Neovim. (default: '')
+
+-- disable internal netrw plugin
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
