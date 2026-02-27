@@ -1,7 +1,7 @@
 MiniDeps.add("chrisgrieser/nvim-spider")
 
 MiniDeps.now(function()
-  local map = _G.Custom.helpers.keymap
+  local map = Custom.helpers.keymap
   map({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>", "nvim-spider better w")
   map({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>", "nvim-spider better e")
   map({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>", "nvim-spider better b")

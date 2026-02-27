@@ -30,7 +30,7 @@ MiniDeps.add({
 
 -- Configuration constants
 local CUSTOM_CONFIG = {
-  base_url = _G.Custom.config.custom_ai_url,
+  base_url = Custom.config.custom_ai_url,
   cache_filename = "custom_protocol",
   curl_timeout = 5,
 }
@@ -107,7 +107,7 @@ MiniDeps.later(function()
     }
   }
 
-  if _G.Custom.metadata.host_type == "work" then
+  if Custom.metadata.host_type == "work" then
     default_provider = "custom_kimi"
     providers["custom_kimi"] = {
       __inherited_from = "openai",

@@ -54,7 +54,7 @@ end
 
 local register_textobject_keymap_move = function()
   local ts_move        = require("nvim-treesitter-textobjects.move")
-  local map            = _G.Custom.helpers.keymap
+  local map            = Custom.helpers.keymap
 
   -- helper: bind move
   local bind_move      = function(lhs, method, query, group, desc)
@@ -113,11 +113,11 @@ local register_autocmd = function(filetypes)
     register_textobject_keymap_move()
     vim.treesitter.start(ev.buf)
   end
-  _G.Custom.helpers.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
+  Custom.helpers.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end
 
 MiniDeps.now(function()
-  local languages = _G.Custom.config.languages
+  local languages = Custom.config.languages
   install_missing_parsers(languages)
   setup_ts_textobject()
 

@@ -4,10 +4,11 @@ if vim.fn.has('nvim-0.11') ~= 1 then
 end
 
 -- Define config table to be able to pass data between scripts
-_G.Custom = {}
-_G.Custom.helpers = require("helpers")
-_G.Custom.config = require("config")
-_G.Custom.metadata = require("metadata")
+_G.Custom = {
+  helpers = require("helpers"),
+  config = require("config"),
+  metadata = require("metadata"),
+}
 
 require("core")
 if not vim.g.vscode then

@@ -39,7 +39,7 @@ MiniDeps.now(function()
       },
     },
   })
-  _G.Custom.helpers.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
+  Custom.helpers.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
 end)
 
 MiniDeps.add("nvim-mini/mini.statusline")

@@ -14,4 +14,4 @@ restore_cursor = function()
   end
 end
 
-_G.Custom.helpers.autocmd('BufReadPost', '*', restore_cursor, "Restore cursor position when re-opening files")
+Custom.helpers.autocmd('BufReadPost', '*', restore_cursor, "Restore cursor position when re-opening files")

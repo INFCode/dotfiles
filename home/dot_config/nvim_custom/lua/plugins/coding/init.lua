@@ -16,8 +16,8 @@ local language_tools = {
   },
 }
 
-local languages = _G.Custom.config.languages or {}
-local active_language_tools = _G.Custom.helpers.index(language_tools, languages)
+local languages = Custom.config.languages or {}
+local active_language_tools = Custom.helpers.index(language_tools, languages)
 
 local select_tools_by_ft = function(tool_key)
   local selected = {}
