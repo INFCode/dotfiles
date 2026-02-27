@@ -15,20 +15,6 @@ local make_avante = function(args)
   vim.system({ "make" }, { cwd = path }, notify_result)
 end
 
-MiniDeps.add({
-  source = 'yetone/avante.nvim',
-  monitor = 'main',
-  depends = {
-    'nvim-lua/plenary.nvim',
-    'MunifTanjim/nui.nvim',
-    'echasnovski/mini.icons'
-  },
-  hooks = {
-    post_install = make_avante,
-    post_checkout = make_avante,
-  }
-})
-
 
 -- Configuration constants
 local CUSTOM_CONFIG = {
@@ -99,6 +85,20 @@ local function get_custom_url()
 end
 
 plugin.later(function()
+  plugin.add({
+    source = 'yetone/avante.nvim',
+    monitor = 'main',
+    depends = {
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      'echasnovski/mini.icons'
+    },
+    hooks = {
+      post_install = make_avante,
+      post_checkout = make_avante,
+    }
+  })
+
   local default_provider = "deepseek"
   local providers = {
     deepseek = {

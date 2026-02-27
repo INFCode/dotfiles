@@ -1,15 +1,15 @@
 local plugin = Custom.plugin
 
-MiniDeps.add({
-  source = 'nvim-neo-tree/neo-tree.nvim',
-  checkout = 'v3.x',
-  depends = {
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-  }
-})
-
 plugin.now(function()
+  plugin.add({
+    source = 'nvim-neo-tree/neo-tree.nvim',
+    checkout = 'v3.x',
+    depends = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    }
+  })
+
   require("neo-tree").setup({
     close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "NC",   -- or "" to use 'winborder' on Neovim v0.11+
@@ -44,14 +44,17 @@ plugin.now(function()
   Custom.helpers.keymap("n", "<leader>nt", "<Cmd>Neotree toggle<CR>", "Toggle Neo-tree")
 end)
 
-MiniDeps.add("nvim-mini/mini.statusline")
-
 plugin.now(function()
+  plugin.add("nvim-mini/mini.statusline")
   require('mini.statusline').setup()
 end)
 
-MiniDeps.add("nvim-mini/mini.notify")
-plugin.now(require("mini.notify").setup)
+plugin.now(function()
+  plugin.add("nvim-mini/mini.notify")
+  require("mini.notify").setup()
+end)
 
-MiniDeps.add("nvim-mini/mini.pick")
-plugin.later(require("mini.pick").setup)
+plugin.later(function()
+  plugin.add("nvim-mini/mini.pick")
+  require("mini.pick").setup()
+end)

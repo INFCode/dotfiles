@@ -1,8 +1,7 @@
-MiniDeps.add({
-  source = "loctvl842/monokai-pro.nvim"
-})
+local plugin = Custom.plugin
 
-MiniDeps.now(function()
+plugin.now(function()
+  plugin.add("loctvl842/monokai-pro.nvim")
   require("monokai-pro").setup({
     filter = "ristretto"
   })

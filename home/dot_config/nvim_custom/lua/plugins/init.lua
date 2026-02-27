@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(deps_path)
 require("mini.deps").setup({ path = { package = path_package } })
 
 Custom.plugin = {
+  add = MiniDeps.add,
   now = MiniDeps.now,
   later = MiniDeps.later,
   now_if_args = vim.fn.argc(-1) > 0 and MiniDeps.now or MiniDeps.later,

@@ -2,23 +2,6 @@
 
 local plugin = Custom.plugin
 
-MiniDeps.add({
-  source = 'nvim-treesitter/nvim-treesitter',
-  -- No need to checkout `main` branch as it is already the default
-  -- checkout = 'main',
-  -- Update tree-sitter parser after plugin is updated
-  hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
-})
-MiniDeps.add({
-  source = 'nvim-treesitter/nvim-treesitter-textobjects',
-  -- Use `main` branch since `master` branch is frozen, yet still default
-  -- It is needed for compatibility with 'nvim-treesitter' `main` branch
-  checkout = 'main',
-})
-MiniDeps.add({
-  source = 'nvim-treesitter/nvim-treesitter-context',
-})
-
 local install_missing_parsers = function(languages)
   local need_install = function(lang)
     return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
@@ -119,6 +102,23 @@ local register_autocmd = function(filetypes)
 end
 
 plugin.now_if_args(function()
+  plugin.add({
+    source = 'nvim-treesitter/nvim-treesitter',
+    -- No need to checkout `main` branch as it is already the default
+    -- checkout = 'main',
+    -- Update tree-sitter parser after plugin is updated
+    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+  })
+  plugin.add({
+    source = 'nvim-treesitter/nvim-treesitter-textobjects',
+    -- Use `main` branch since `master` branch is frozen, yet still default
+    -- It is needed for compatibility with 'nvim-treesitter' `main` branch
+    checkout = 'main',
+  })
+  plugin.add({
+    source = 'nvim-treesitter/nvim-treesitter-context',
+  })
+
   local languages = Custom.config.languages
   install_missing_parsers(languages)
   setup_ts_textobject()
@@ -127,8 +127,6 @@ plugin.now_if_args(function()
   register_autocmd(ts_filetypes)
 end)
 
-
-MiniDeps.add({ source = 'echasnovski/mini.ai' })
 
 local setup_mini_ai = function()
   local ai = require('mini.ai')
@@ -146,4 +144,7 @@ local setup_mini_ai = function()
   })
 end
 
-plugin.later(setup_mini_ai)
+plugin.later(function()
+  plugin.add({ source = 'echasnovski/mini.ai' })
+  setup_mini_ai()
+end)

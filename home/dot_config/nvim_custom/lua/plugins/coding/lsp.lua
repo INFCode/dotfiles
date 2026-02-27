@@ -2,12 +2,6 @@ local plugin = Custom.plugin
 
 local M = {}
 
-local register_plugin = function()
-  MiniDeps.add({
-    source = "neovim/nvim-lspconfig"
-  })
-end
-
 local setup_hook = function()
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
@@ -26,11 +20,6 @@ local setup_hook = function()
   })
 end
 
-local setup_capabilities = function()
-  local blink = require("blink.cmp")
-  local capabilities = blink.get_lsp_capabilities()
-  vim.lsp.config("*", { capabiliteis = capabilities })
-end
 
 local enable_servers = function(ls_by_ft)
   local ls_servers = vim.iter(vim.tbl_values(ls_by_ft or {})):flatten():totable()
@@ -38,10 +27,9 @@ local enable_servers = function(ls_by_ft)
 end
 
 function M.setup(ls_by_ft)
-  register_plugin()
   plugin.now_if_args(function()
+    plugin.add("neovim/nvim-lspconfig")
     setup_hook()
-    setup_capabilities()
     enable_servers(ls_by_ft)
   end)
 end

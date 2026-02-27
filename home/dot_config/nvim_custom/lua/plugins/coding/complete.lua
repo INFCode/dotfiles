@@ -1,13 +1,18 @@
 local plugin = Custom.plugin
 
-MiniDeps.add({
-  source = "saghen/blink.cmp",
-  depends = { 'Kaiser-Yang/blink-cmp-avante' },
-  checkout = "v1.8.0",
-})
-
+local setup_capabilities = function()
+  local blink = require("blink.cmp")
+  local capabilities = blink.get_lsp_capabilities()
+  vim.lsp.config("*", { capabiliteis = capabilities })
+end
 
 plugin.later(function()
+  plugin.add({
+    source = "saghen/blink.cmp",
+    depends = { 'Kaiser-Yang/blink-cmp-avante' },
+    checkout = "v1.8.0",
+  })
+
   require("blink.cmp").setup({
     completion = {
       list = {
@@ -36,4 +41,5 @@ plugin.later(function()
       },
     }
   })
+  setup_capabilities()
 end)
