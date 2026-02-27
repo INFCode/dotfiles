@@ -1,9 +1,0 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-
-local map = vim.keymap.set
-local default_opts = { noremap = true, silent = true }
-
-map("i", "jk", "<ESC>", default_opts)
-map("n", "x", '"_x', default_opts) -- delete single character without polluting the register
