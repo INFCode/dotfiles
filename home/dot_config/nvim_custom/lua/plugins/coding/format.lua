@@ -1,3 +1,5 @@
+local plugin = Custom.plugin
+
 local M = {}
 
 local register_plugin = function()
@@ -5,7 +7,7 @@ local register_plugin = function()
 end
 
 local configure_conform = function(formatters_by_ft)
-  MiniDeps.later(function()
+  plugin.later(function()
     local conform = require("conform")
     conform.setup({
       formatters_by_ft = formatters_by_ft or {},

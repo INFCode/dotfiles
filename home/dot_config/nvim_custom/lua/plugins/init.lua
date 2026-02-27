@@ -12,8 +12,13 @@ if not vim.loop.fs_stat(deps_path) then
 end
 vim.opt.rtp:prepend(deps_path)
 
-local deps = require("mini.deps")
-deps.setup({ path = { package = path_package } })
+require("mini.deps").setup({ path = { package = path_package } })
+
+Custom.plugin = {
+  now = MiniDeps.now,
+  later = MiniDeps.later,
+  now_if_args = vim.fn.argc(-1) > 0 and MiniDeps.now or MiniDeps.later,
+}
 
 require("plugins.ui")
 require("plugins.motion")

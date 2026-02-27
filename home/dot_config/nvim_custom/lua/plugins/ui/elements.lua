@@ -1,3 +1,5 @@
+local plugin = Custom.plugin
+
 MiniDeps.add({
   source = 'nvim-neo-tree/neo-tree.nvim',
   checkout = 'v3.x',
@@ -7,7 +9,7 @@ MiniDeps.add({
   }
 })
 
-MiniDeps.now(function()
+plugin.now(function()
   require("neo-tree").setup({
     close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "NC",   -- or "" to use 'winborder' on Neovim v0.11+
@@ -44,12 +46,12 @@ end)
 
 MiniDeps.add("nvim-mini/mini.statusline")
 
-MiniDeps.now(function()
+plugin.now(function()
   require('mini.statusline').setup()
 end)
 
 MiniDeps.add("nvim-mini/mini.notify")
-MiniDeps.later(require("mini.notify").setup)
+plugin.now(require("mini.notify").setup)
 
 MiniDeps.add("nvim-mini/mini.pick")
-MiniDeps.later(require("mini.pick").setup)
+plugin.later(require("mini.pick").setup)

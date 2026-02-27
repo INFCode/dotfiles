@@ -1,3 +1,5 @@
+local plugin = Custom.plugin
+
 MiniDeps.add({
   source = "saghen/blink.cmp",
   depends = { 'Kaiser-Yang/blink-cmp-avante' },
@@ -5,7 +7,7 @@ MiniDeps.add({
 })
 
 
-MiniDeps.later(function()
+plugin.later(function()
   require("blink.cmp").setup({
     completion = {
       list = {

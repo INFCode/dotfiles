@@ -1,3 +1,5 @@
+local plugin = Custom.plugin
+
 local M = {}
 
 local register_plugin = function()
@@ -5,7 +7,7 @@ local register_plugin = function()
 end
 
 local configure_lint = function(linters_by_ft)
-  MiniDeps.later(function()
+  plugin.later(function()
     require("lint").linters_by_ft = linters_by_ft or {}
   end)
 end

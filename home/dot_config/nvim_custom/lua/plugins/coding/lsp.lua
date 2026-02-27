@@ -1,3 +1,5 @@
+local plugin = Custom.plugin
+
 local M = {}
 
 local register_plugin = function()
@@ -37,7 +39,7 @@ end
 
 function M.setup(ls_by_ft)
   register_plugin()
-  MiniDeps.now(function()
+  plugin.now_if_args(function()
     setup_hook()
     setup_capabilities()
     enable_servers(ls_by_ft)

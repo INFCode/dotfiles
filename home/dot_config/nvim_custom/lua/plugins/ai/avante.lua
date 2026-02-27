@@ -1,3 +1,5 @@
+local plugin = Custom.plugin
+
 local make_avante = function(args)
   local path = args.path
   vim.notify("Building avante.nvim...", vim.log.levels.INFO)
@@ -96,7 +98,7 @@ local function get_custom_url()
   return protocol .. CUSTOM_CONFIG.base_url
 end
 
-MiniDeps.later(function()
+plugin.later(function()
   local default_provider = "deepseek"
   local providers = {
     deepseek = {

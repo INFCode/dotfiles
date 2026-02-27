@@ -1,5 +1,7 @@
 -- Enhance Neovim's structural understanding of file content.
 
+local plugin = Custom.plugin
+
 MiniDeps.add({
   source = 'nvim-treesitter/nvim-treesitter',
   -- No need to checkout `main` branch as it is already the default
@@ -116,7 +118,7 @@ local register_autocmd = function(filetypes)
   Custom.helpers.autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end
 
-MiniDeps.now(function()
+plugin.now_if_args(function()
   local languages = Custom.config.languages
   install_missing_parsers(languages)
   setup_ts_textobject()
@@ -144,4 +146,4 @@ local setup_mini_ai = function()
   })
 end
 
-MiniDeps.now(setup_mini_ai)
+plugin.later(setup_mini_ai)
