@@ -3,7 +3,7 @@ if vim.fn.has('nvim-0.11') ~= 1 then
   return
 end
 
--- Define config table to be able to pass data between scripts
+-- Define global config table sharing data between scripts
 _G.Custom = {
   helpers = require("helpers"),
   config = require("config"),
