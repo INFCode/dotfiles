@@ -10,8 +10,7 @@
 {{- end -}}
 
 {{- /* Parse non-url config */ -}}
-{{- $config := dict -}}
-{{- if $stdin -}}
+{{- $config := dict -}} {{- if $stdin -}}
 {{-   $config = fromIni $stdin -}}
 {{- end -}}
 
@@ -27,7 +26,7 @@
     "st" "status"
     "co" "checkout"
     "pushfl" "push --force-with-lease"
-    "cmt" "commit"
+    "cmt" "commit -m"
     "cmtamne" "commit --amend --no-edit"
 -}}
 {{- $_ := set $config "alias" (merge $alias (get $config "alias" | default dict)) -}}
