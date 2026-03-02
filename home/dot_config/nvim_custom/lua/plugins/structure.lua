@@ -104,20 +104,11 @@ end
 plugin.now_if_args(function()
   plugin.add({
     source = 'nvim-treesitter/nvim-treesitter',
-    -- No need to checkout `main` branch as it is already the default
-    -- checkout = 'main',
     -- Update tree-sitter parser after plugin is updated
     hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
   })
-  plugin.add({
-    source = 'nvim-treesitter/nvim-treesitter-textobjects',
-    -- Use `main` branch since `master` branch is frozen, yet still default
-    -- It is needed for compatibility with 'nvim-treesitter' `main` branch
-    checkout = 'main',
-  })
-  plugin.add({
-    source = 'nvim-treesitter/nvim-treesitter-context',
-  })
+  plugin.add('nvim-treesitter/nvim-treesitter-textobjects')
+  plugin.add('nvim-treesitter/nvim-treesitter-context')
 
   local languages = Custom.config.languages
   install_missing_parsers(languages)
