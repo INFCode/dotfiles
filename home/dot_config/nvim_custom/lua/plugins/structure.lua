@@ -26,6 +26,15 @@ local setup_ts_textobject = function()
   }
 end
 
+local function setup_ts_context()
+  require('treesitter-context').setup {
+    -- How many lines the window should span
+    max_lines = 8,
+    -- Maximum number of lines to show for a single context
+    multiline_threshold = 3
+  }
+end
+
 -- Enable tree-sitter after opening a file for a target language
 local get_ts_filetypes = function(languages)
   local filetypes = {}
@@ -113,6 +122,7 @@ plugin.now_if_args(function()
   local languages = Custom.config.languages
   install_missing_parsers(languages)
   setup_ts_textobject()
+  setup_ts_context()
 
   local ts_filetypes = get_ts_filetypes(languages)
   register_autocmd(ts_filetypes)
